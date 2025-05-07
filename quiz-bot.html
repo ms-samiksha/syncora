@@ -16,11 +16,15 @@
     }
 
     .dashboard-card {
-      background: rgba(255, 255, 255, 0.866);
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    }
+  background: rgba(255, 255, 255, 0.866);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;          /* Ensure it takes full available width */
+  max-width: 900px;     /* Set a max width to prevent it from becoming too wide */
+  box-sizing: border-box; /* Include padding and border in width and height calculations */
+}
+
 
     footer {
       background-color: #3B1E54;
@@ -54,13 +58,15 @@
     }
 
     .chat-container {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 12px;
-      padding: 15px;
-      height: 300px;
-      overflow-y: auto;
-      margin-bottom: 10px;
-    }
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 15px;
+  height: 400px;
+  width: 100%;         /* Let it stretch as needed */
+  max-width: 850px;    /* Don’t let it get too wide */
+  overflow-y: auto;
+  margin: 0 auto 10px; /* Center it nicely */
+}
 
     .chat-message {
       margin-bottom: 10px;
@@ -203,7 +209,7 @@
     }
 
     async function generateNewQuestion() {
-      const prompt = `You are a Quiz Bot designed to help users study by providing quiz questions. Generate a single, concise quiz question directly related to the topic: "${subject}". The question must be unique and different from these previously asked questions: ${JSON.stringify(askedQuestions)}. Do not include the answer. Respond only with the question text. Example: For topic "Industrial Revolution": "What invention was key to powering factories during the Industrial Revolution?"`;
+      const prompt = `You are a Quiz Bot designed to help users study by providing quiz questions. Generate a single, concise quiz question directly related to the topic: "${subject}". The question must be unique and different from these previously asked questions: ${JSON.stringify(askedQuestions)}. Do not include the answer. Respond only with the question text and 4 options. Example: For topic "Industrial Revolution": "What invention was key to powering factories during the Industrial Revolution?"`;
 
       try {
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
@@ -270,7 +276,7 @@
       }
 
       if (quizActive && currentQuestion) {
-        const prompt = `You are a Quiz Bot. The user was asked this question about the topic "${subject}": "${currentQuestion}". They provided this answer: "${text}". Check if the answer is correct. If correct, respond with "Correct!" If incorrect, respond with "Incorrect. The correct answer is [correct answer]." Keep the response concise and do not ask for another question.`;
+        const prompt = `You are a Quiz Bot. The user was asked this question about the topic "${subject}": "${currentQuestion}". They provided this answer: "${text}". Check if the answer is correct option ,it can be in either uppercase or lowercase. If correct, respond with "Correct!" If incorrect, respond with "Incorrect. The correct answer is [correct answer]." Keep the response concise and do not ask for another question.`;
 
         try {
           const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
